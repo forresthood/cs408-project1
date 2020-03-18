@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
+import java.io.Console;
 
 public class TicTacToeView extends AppCompatActivity {
 
     private TicTacToeController controller;
+    private static final String TAG = "TicTacToeView";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +48,15 @@ public class TicTacToeView extends AppCompatActivity {
 
         setResult( getResources().getString(R.string.welcome) );
 
-        //
-        // INSERT YOUR CODE HERE
-        //
+        for(int i = 0; i < size; ++i){
+            for (int j = 0; j < size; ++j){
+                TicTacToeSquare sq = new TicTacToeSquare(i, j);
+                int sqId = getSquareId(sq);
+                TextView sqView = (TextView)findViewById(sqId);
+                sqView.setText("");
+            }
 
+        }
     }
 
     public void modelPropertyChange(final PropertyChangeEvent e) {
@@ -71,9 +79,12 @@ public class TicTacToeView extends AppCompatActivity {
 
             if (propertyValue instanceof TicTacToeSquare) {
 
-                //
-                // INSERT YOUR CODE HERE
-                //
+                int row = ((TicTacToeSquare) propertyValue).getRow();
+                int col = ((TicTacToeSquare) propertyValue).getCol();
+                TicTacToeSquare sq = new TicTacToeSquare(row, col);
+                int sqId = getSquareId(sq);
+                TextView sqView = (TextView)findViewById(sqId);
+                sqView.setText(controller.getMarkAsString(sq));
 
             }
 
@@ -110,18 +121,23 @@ public class TicTacToeView extends AppCompatActivity {
 
     public void onClick(View v) {
 
-        //
-        // This is the "onClick()" method shared by all TextViews in the grid.  It should get the
-        // name of the clicked TextView, derive the row and column, encapsulate the corresponding
-        // square as a TicTacToeSquare object, then hand it off to the Controller for processing.
-        //
+        /*
+         This is the "onClick()" method shared by all TextViews in the grid.  It should get the
+         name of the clicked TextView, derive the row and column, encapsulate the corresponding
+         square as a TicTacToeSquare object, then hand it off to the Controller for processing.
+        */
 
         String name = getViewName(v);
-        Toast.makeText(getBaseContext(), name, Toast.LENGTH_SHORT).show(); // disable this later
+        //Toast.makeText(getBaseContext(), name, Toast.LENGTH_SHORT).show(); // disable this later
 
-        //
-        // INSERT YOUR CODE HERE
-        //
+        int row = 0;
+        int col = 0;
+        StringBuilder strName = new StringBuilder(name);
+        row = Character.getNumericValue(strName.charAt(6));
+        col = Character.getNumericValue(strName.charAt(7));
+
+        TicTacToeSquare passSquare = new TicTacToeSquare(row, col);
+        controller.processInput(passSquare);
 
     }
 

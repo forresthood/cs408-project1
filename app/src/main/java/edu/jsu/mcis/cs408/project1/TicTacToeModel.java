@@ -78,9 +78,11 @@ public class TicTacToeModel {
         if (valid){
             if (xTurn){
                 grid[row][col] = Mark.X;
+                firePropertyChange(controller.SET_SQUARE_X, null, new TicTacToeSquare(row, col));
             }
             else{
                 grid[row][col] = Mark.O;
+                firePropertyChange(controller.SET_SQUARE_O, null, new TicTacToeSquare(row, col));
             }
             xTurn = !xTurn;
             return true;
@@ -141,10 +143,10 @@ public class TicTacToeModel {
             return Result.X;
         }
         else if (oWin){
-            return Result.O
+            return Result.O;
         }
         else if (tie){
-            return Result.TIE
+            return Result.TIE;
         }
         else{
             return Result.NONE;

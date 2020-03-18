@@ -35,9 +35,23 @@ public class TicTacToeController implements PropertyChangeListener {
 
         // setModelProperty("Mark", square);
 
-        //
-        // INSERT YOUR CODE HERE
-        //
+        if (model.getResult().equals(TicTacToeModel.Result.NONE)){
+            setModelProperty("Mark", square);
+        }
+        TicTacToeModel.Result res = model.getResult();
+        switch (res){
+            case O:
+                view.setResult(TicTacToeModel.Result.O.toString());
+                break;
+            case X:
+                view.setResult(TicTacToeModel.Result.X.toString());
+                break;
+            case TIE:
+                view.setResult(TicTacToeModel.Result.TIE.toString());
+                break;
+            case NONE:
+                break;
+        }
 
     }
 
